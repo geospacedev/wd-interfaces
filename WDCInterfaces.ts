@@ -1,5 +1,3 @@
-import { ICaptureObject } from "./ICaptureObject";
-import { ICaptureWall } from "./ICaptureWall";
 
 export interface ICapture {
 	dateCreated: string; // ISO 8601 string for JSON safety
@@ -25,11 +23,8 @@ export interface ICaptureDevice {
 	primaryCameraId?: string; // id of camera used predominantly
 }
 
-export interface ICaptureModel {
-	// intentionally left empty for now per requirements
-}
-
 export interface ICaptureVideo {
+    id: string;
 	url: string; // cloud storage url
 	thumbnailUrl?: string;
 	width: number;
@@ -58,13 +53,12 @@ export interface ICaptureFrame {
 	id: string;
     number: number;
     perspective: ICapturePerspective;
-    photos: ICapturePhoto[];
-	walls?: ICaptureWall[];
-	objects?: ICaptureObject[];
+    photoIds: string[];
+	objects: ICaptureObject[];
 }
 
 export interface ICaptureTimeline {
-    frames: ICaptureFrame[];
+    frameIds: string[];
 }
 
 export interface ICaptureTask {
@@ -86,6 +80,28 @@ export interface ICapturePerspective {
     height: number; // height off floor
     facingAngle: number; // in radians
     fov: IFieldOfView;
+}
+
+export interface ICaptureObject  {
+	// tdb
+}
+
+
+export interface ICaptureModel {
+    structure: IStructure;
+}
+
+export interface IStructure {
+    id: string | undefined;
+    levels: ICaptureLevel[] | undefined;
+}
+
+export interface ICaptureLevel {
+    id: string;
+    name: string;
+    elevation: number;
+    wallFaces: number[][]; // array of wall faces, each face is array of points [x1, y1, x2, y2]
+    objects: ICaptureObject[];
 }
 
 export interface IFieldOfView {
@@ -121,7 +137,7 @@ export enum CaptureIssueConfidenceReasonType {
 }
 
 export interface ICaptureCamera {
-	id: string; // stable id for camera module (e.g., "rear-wide")
+	cameraType: string; // stable id for camera module (e.g., "rear-wide")
 	position: "front" | "rear";
 	lensType: "wide" | "ultraWide" | "telephoto" | "front";
 	focalLengthMm?: number;
