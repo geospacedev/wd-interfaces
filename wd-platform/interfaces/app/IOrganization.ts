@@ -1,4 +1,4 @@
-import { UnitOfMeasurePrecisionType, UnitOfMeasureType } from "../enums/enums";
+import { UnitOfMeasurePrecisionType, UnitOfMeasureType } from "../../enums/enums";
 import { IAddress } from "./IAddress";
 
 export interface IOrganization {

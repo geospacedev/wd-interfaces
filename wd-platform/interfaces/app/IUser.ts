@@ -1,4 +1,4 @@
-import { OrganizationRoleType, UnitOfMeasurePrecisionType, UnitOfMeasureType, UserRoleType } from "../enums/enums";
+import { OrganizationRoleType, UnitOfMeasurePrecisionType, UnitOfMeasureType, UserRoleType } from "../../enums/enums";
 
 export interface IUser {
     id: string;
