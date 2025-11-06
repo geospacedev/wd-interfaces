@@ -1,3 +1,4 @@
+import { CaptureComplexityLevelType } from "../enums/enums";
 
 export interface ICapture {
 	dateCreated: string; // ISO 8601 string for JSON safety
@@ -13,6 +14,7 @@ export interface ICapture {
     meshFile: ICaptureMeshFile; // .ply from scan storage
     timeline: ICaptureTimeline;
     tasks: ICaptureTask[];
+    complexityLevel: CaptureComplexityLevelType;
 }
     
 export interface ICaptureObjFile {
@@ -91,10 +93,13 @@ export interface ICapturePhoto {
 	meta?: ICapturePhotoMetadata;
 }
 
-export interface ICaptureFrameOLD {
-	id: string;
-    number: number;
-    perspective: ICapturePerspective;
+export interface ICapturePerspective {
+    id: string;
+    sequenceNumber: number;
+    point: number[]; // cartesian point of device
+    height: number; // height off floor
+    facingAngle: number; // in radians
+    fov: IFieldOfView;
     photoIds: string[];
 	objects: ICaptureObject[];
 }
@@ -138,17 +143,9 @@ export interface ICaptureIssue {
     frameId: string;
 }
 
-export interface ICapturePerspective {
-    point: number[]; // cartesian point of device
-    height: number; // height off floor
-    facingAngle: number; // in radians
-    fov: IFieldOfView;
-}
-
 export interface ICaptureObject  {
 	// tdb
 }
-
 
 export interface ICaptureModel {
     structure: IStructure;

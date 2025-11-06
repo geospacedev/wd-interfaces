@@ -1,0 +1,79 @@
+<div class="projects-container">
+  <div class="filter-controls">
+    <input 
+      type="text" 
+      class="filter-input" 
+      placeholder="Filter projects..." 
+      [(ngModel)]="filterText"
+      (input)="applyFilter()">
+  </div>
+  
+  <table class="projects-table">
+    <thead>
+      <tr>
+        <th class="status-header"></th>
+        <th class="cube-header"></th>
+        <th class="icon-header"></th>
+        <th (click)="sortBy('name')" class="sortable">
+          Name
+          <span *ngIf="sortColumn === 'name'" class="sort-indicator">
+            {{ sortDirection === 'asc' ? '↑' : '↓' }}
+          </span>
+        </th>
+        <th (click)="sortBy('status')" class="sortable">
+          Status
+          <span *ngIf="sortColumn === 'status'" class="sort-indicator">
+            {{ sortDirection === 'asc' ? '↑' : '↓' }}
+          </span>
+        </th>
+        <th (click)="sortBy('dateCreated')" class="sortable">
+          Date Created
+          <span *ngIf="sortColumn === 'dateCreated'" class="sort-indicator">
+            {{ sortDirection === 'asc' ? '↑' : '↓' }}
+          </span>
+        </th>
+        <th (click)="sortBy('dateModified')" class="sortable">
+          Date Modified
+          <span *ngIf="sortColumn === 'dateModified'" class="sort-indicator">
+            {{ sortDirection === 'asc' ? '↑' : '↓' }}
+          </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let project of displayedProjects">
+        <td class="status-cell">
+          <div class="status-circle" [ngClass]="{'status-circle-red': isStatusError(project.currentStatus), 'status-circle-green': !isStatusError(project.currentStatus)}"></div>
+        </td>
+        <td class="cube-cell">
+          <div class="cube-container">
+            <div class="cube" [ngClass]="{'cube-blue': isStatusScanCompletedOrHigher(project.currentStatus), 'cube-gray': !isStatusScanCompletedOrHigher(project.currentStatus)}">
+              <div class="cube-face cube-front"></div>
+              <div class="cube-face cube-back"></div>
+              <div class="cube-face cube-right"></div>
+              <div class="cube-face cube-left"></div>
+              <div class="cube-face cube-top"></div>
+              <div class="cube-face cube-bottom"></div>
+            </div>
+          </div>
+        </td>
+        <td class="icon-cell">
+          <div class="floorplan-container">
+            <div class="floorplan" [ngClass]="{'floorplan-blue': isStatusModelCompletedOrHigher(project.currentStatus), 'floorplan-gray': !isStatusModelCompletedOrHigher(project.currentStatus)}">
+              <div class="floorplan-room room-1"></div>
+              <div class="floorplan-room room-2"></div>
+              <div class="floorplan-room room-3"></div>
+              <div class="floorplan-wall wall-horizontal wall-1"></div>
+              <div class="floorplan-wall wall-horizontal wall-2"></div>
+              <div class="floorplan-wall wall-vertical wall-3"></div>
+            </div>
+          </div>
+        </td>
+        <td>{{ project.name }}</td>
+        <td>{{ getStatusDisplay(project.currentStatus) }}</td>
+        <td>{{ formatDate(project.dateCreated) }}</td>
+        <td>{{ formatDate(project.dateModified) }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,165 @@
+<div class="user-details-container" *ngIf="user">
+  <div class="header">
+    <button class="back-button" routerLink="/accounts">← Back to Accounts</button>
+    <button class="edit-button" [class.active]="isEditMode" (click)="toggleEditMode()">
+      {{ isEditMode ? 'Cancel Edit' : 'Edit User Details' }}
+    </button>
+  </div>
+  
+  <div class="details-grid" *ngIf="editedUser">
+    <div class="user-properties">
+      <h3>User Properties - {{ editedUser.firstName }} {{ editedUser.lastName }}</h3>
+      <div class="property-list">
+        <!-- Read-only fields -->
+        <div class="property-item">
+          <span class="property-label">ID:</span>
+          <span class="property-value">{{ user.id }}</span>
+        </div>
+        <div class="property-item">
+          <span class="property-label">Auth ID:</span>
+          <span class="property-value">{{ user.authId }}</span>
+        </div>
+        <div class="property-item">
+          <span class="property-label">Email Address:</span>
+          <span class="property-value">{{ user.emailAddress }}</span>
+        </div>
+        
+        <!-- Editable fields -->
+        <div class="property-item">
+          <span class="property-label">First Name:</span>
+          <span class="property-value" *ngIf="!isEditMode">{{ editedUser.firstName }}</span>
+          <input *ngIf="isEditMode" type="text" [(ngModel)]="editedUser.firstName" class="edit-input" />
+        </div>
+        <div class="property-item">
+          <span class="property-label">Last Name:</span>
+          <span class="property-value" *ngIf="!isEditMode">{{ editedUser.lastName }}</span>
+          <input *ngIf="isEditMode" type="text" [(ngModel)]="editedUser.lastName" class="edit-input" />
+        </div>
+        <div class="property-item">
+          <span class="property-label">Country Code:</span>
+          <span class="property-value" *ngIf="!isEditMode">{{ editedUser.countryCode }}</span>
+          <input *ngIf="isEditMode" type="text" [(ngModel)]="editedUser.countryCode" class="edit-input" maxlength="2" />
+        </div>
+        
+        <!-- Read-only fields -->
+        <div class="property-item">
+          <span class="property-label">Date Created:</span>
+          <span class="property-value">{{ formatDate(user.dateCreated) }}</span>
+        </div>
+        <div class="property-item">
+          <span class="property-label">Unit Of Measure Type:</span>
+          <span class="property-value">{{ getUnitOfMeasureDisplay(user.unitOfMeasureType) }}</span>
+        </div>
+        <div class="property-item">
+          <span class="property-label">Unit Of Measure Precision:</span>
+          <span class="property-value">{{ getUnitOfMeasurePrecisionDisplay(user.unitOfMeasurePrecisionType) }}</span>
+        </div>
+        <div class="property-item">
+          <span class="property-label">Role:</span>
+          <span class="property-value">{{ getUserRoleDisplay(user.role) }}</span>
+        </div>
+        <div class="property-item">
+          <span class="property-label">Organization ID:</span>
+          <span class="property-value">{{ user.organizationId || '-' }}</span>
+        </div>
+        <div class="property-item">
+          <span class="property-label">Organization Name:</span>
+          <span class="property-value">{{ user.organizationName || '-' }}</span>
+        </div>
+        <div class="property-item">
+          <span class="property-label">Organization Role:</span>
+          <span class="property-value">{{ getOrganizationRoleDisplay(user.organizationRole) }}</span>
+        </div>
+        <div class="property-item">
+          <span class="property-label">Email Verified:</span>
+          <span class="property-value">{{ formatBoolean(user.isEmailVerified) }}</span>
+        </div>
+        <div class="property-item">
+          <span class="property-label">Disabled:</span>
+          <span class="property-value">{{ formatBoolean(user.isDisabled) }}</span>
+        </div>
+        <div class="property-item">
+          <span class="property-label">Date Last Login:</span>
+          <span class="property-value">{{ formatDate(user.dateLastLogin) }}</span>
+        </div>
+        <div class="property-item">
+          <span class="property-label">Profile Photo URL:</span>
+          <span class="property-value">{{ user.profilePhotoUrl || '-' }}</span>
+        </div>
+        
+        <!-- Editable fields -->
+        <div class="property-item">
+          <span class="property-label">Phone Number:</span>
+          <span class="property-value" *ngIf="!isEditMode">{{ editedUser.phoneNumber || '-' }}</span>
+          <input *ngIf="isEditMode" type="text" [(ngModel)]="editedUser.phoneNumber" class="edit-input" />
+        </div>
+        <div class="property-item">
+          <span class="property-label">TOS Accepted Version:</span>
+          <span class="property-value" *ngIf="!isEditMode">{{ editedUser.tosAcceptedVersion || '-' }}</span>
+          <input *ngIf="isEditMode" type="text" [(ngModel)]="editedUser.tosAcceptedVersion" class="edit-input" />
+        </div>
+        <div class="property-item">
+          <span class="property-label">Privacy Policy Accepted Version:</span>
+          <span class="property-value" *ngIf="!isEditMode">{{ editedUser.privacyPolicyAcceptedVersion || '-' }}</span>
+          <input *ngIf="isEditMode" type="text" [(ngModel)]="editedUser.privacyPolicyAcceptedVersion" class="edit-input" />
+        </div>
+        <div class="property-item">
+          <span class="property-label">Marketing Opt In:</span>
+          <span class="property-value" *ngIf="!isEditMode">{{ formatBoolean(editedUser.marketingOptIn) }}</span>
+          <input *ngIf="isEditMode" type="checkbox" [(ngModel)]="editedUser.marketingOptIn" class="edit-checkbox" />
+        </div>
+        <div class="property-item">
+          <span class="property-label">Beta Program Opt In:</span>
+          <span class="property-value" *ngIf="!isEditMode">{{ formatBoolean(editedUser.betaProgramOptIn) }}</span>
+          <input *ngIf="isEditMode" type="checkbox" [(ngModel)]="editedUser.betaProgramOptIn" class="edit-checkbox" />
+        </div>
+        <div class="property-item">
+          <span class="property-label">Language Code:</span>
+          <span class="property-value" *ngIf="!isEditMode">{{ editedUser.languageCode || '-' }}</span>
+          <input *ngIf="isEditMode" type="text" [(ngModel)]="editedUser.languageCode" class="edit-input" />
+        </div>
+        <div class="property-item">
+          <span class="property-label">Dark Mode Opt In:</span>
+          <span class="property-value" *ngIf="!isEditMode">{{ formatBoolean(editedUser.darkModeOptIn) }}</span>
+          <input *ngIf="isEditMode" type="checkbox" [(ngModel)]="editedUser.darkModeOptIn" class="edit-checkbox" />
+        </div>
+        <div class="property-item">
+          <span class="property-label">Experimental Features Opt In:</span>
+          <span class="property-value" *ngIf="!isEditMode">{{ formatBoolean(editedUser.experimentalFeaturesOptIn) }}</span>
+          <input *ngIf="isEditMode" type="checkbox" [(ngModel)]="editedUser.experimentalFeaturesOptIn" class="edit-checkbox" />
+        </div>
+        <div class="property-item">
+          <span class="property-label">Feature Flags:</span>
+          <span class="property-value" *ngIf="!isEditMode">{{ formatArray(editedUser.featureFlags) }}</span>
+          <input *ngIf="isEditMode" type="text" [value]="getFeatureFlagsString()" (input)="updateFeatureFlags($any($event.target).value)" class="edit-input" placeholder="Comma-separated flags" />
+        </div>
+      </div>
+    </div>
+    
+    <div class="user-projects">
+      <h3>User Projects</h3>
+      <div class="projects-list" *ngIf="userProjects.length > 0; else noProjects">
+        <div class="project-item" *ngFor="let project of userProjects">
+          <div class="project-detail">
+            <span class="project-label">Project ID:</span>
+            <span class="project-value">{{ project.projectId }}</span>
+          </div>
+          <div class="project-detail">
+            <span class="project-label">Type:</span>
+            <span class="project-value">{{ getUserProjectTypeDisplay(project.type) }}</span>
+          </div>
+        </div>
+      </div>
+      <ng-template #noProjects>
+        <p class="no-projects">No projects found for this user.</p>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+<div class="user-details-container" *ngIf="!user">
+  <div class="error-message">
+    <p>User not found</p>
+    <button class="back-button" routerLink="/accounts">← Back to Accounts</button>
+  </div>
+</div>

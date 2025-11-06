@@ -1,0 +1,83 @@
+<div class="accounts-container">
+  <div class="filter-pills">
+    <button 
+      class="pill" 
+      [class.active]="activeFilter === 'users'"
+      (click)="setFilter('users')">
+      Users
+    </button>
+    <button 
+      class="pill" 
+      [class.active]="activeFilter === 'organizations'"
+      (click)="setFilter('organizations')">
+      Organizations
+    </button>
+  </div>
+  
+  <div class="content-area">
+    <div *ngIf="activeFilter === 'users'" class="users-view">
+      <div class="filter-controls">
+        <input 
+          type="text" 
+          class="filter-input" 
+          placeholder="Filter users..." 
+          [(ngModel)]="filterText"
+          (input)="applyFilter()">
+      </div>
+      
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th (click)="sortBy('name')" class="sortable">
+              Name
+              <span *ngIf="sortColumn === 'name'" class="sort-indicator">
+                {{ sortDirection === 'asc' ? '↑' : '↓' }}
+              </span>
+            </th>
+            <th (click)="sortBy('role')" class="sortable">
+              Role
+              <span *ngIf="sortColumn === 'role'" class="sort-indicator">
+                {{ sortDirection === 'asc' ? '↑' : '↓' }}
+              </span>
+            </th>
+            <th (click)="sortBy('organizationName')" class="sortable">
+              Organization Name
+              <span *ngIf="sortColumn === 'organizationName'" class="sort-indicator">
+                {{ sortDirection === 'asc' ? '↑' : '↓' }}
+              </span>
+            </th>
+            <th (click)="sortBy('unitOfMeasureType')" class="sortable">
+              Unit Of Measure Type
+              <span *ngIf="sortColumn === 'unitOfMeasureType'" class="sort-indicator">
+                {{ sortDirection === 'asc' ? '↑' : '↓' }}
+              </span>
+            </th>
+            <th (click)="sortBy('dateLastLogin')" class="sortable">
+              Date Last Login
+              <span *ngIf="sortColumn === 'dateLastLogin'" class="sort-indicator">
+                {{ sortDirection === 'asc' ? '↑' : '↓' }}
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of displayedUsers">
+            <td>
+              <a [routerLink]="['/accounts/user', user.id]" class="user-name-link">
+                {{ getFullName(user) }}
+              </a>
+            </td>
+            <td>{{ getRoleDisplay(user.role) }}</td>
+            <td>{{ user.organizationName || '-' }}</td>
+            <td>{{ getUnitOfMeasureDisplay(user.unitOfMeasureType) }}</td>
+            <td>{{ formatDate(user.dateLastLogin) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div *ngIf="activeFilter === 'organizations'" class="organizations-view">
+      <!-- Organizations content will go here -->
+    </div>
+  </div>
+</div>
